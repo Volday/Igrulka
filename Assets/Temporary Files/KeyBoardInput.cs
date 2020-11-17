@@ -13,5 +13,6 @@ public class KeyBoardInput : MonoBehaviour
     void Update()
     {
         shipMovement.AddShipForce(Input.GetAxis("Vertical"));
+        shipMovement.AddRotationAngle(Input.GetAxis("Horizontal"));
     }
 }

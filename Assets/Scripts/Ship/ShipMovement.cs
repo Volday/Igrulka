@@ -3,7 +3,11 @@
 [RequireComponent(typeof(ShipMovementData))]
 public class ShipMovement : MonoBehaviour
 {
+    public bool autoSteeringWheelReturn;
+    private bool hasRotationInput;
+
     private float currentSpeed = 0;
+    private float rotationAngle = 0;
 
     private ShipMovementData shipMovementData;
 
@@ -14,18 +18,40 @@ public class ShipMovement : MonoBehaviour
 
     private void Update()
     {
+        Rotate();
         MoveForward();
-        Debug.Log(currentSpeed);
     }
 
-    private void MoveForward() {
-        currentSpeed *= 1 - shipMovementData.resistiveForce * Time.deltaTime;
+    private void MoveForward() 
+    {
+        transform.position += transform.forward * currentSpeed * Time.deltaTime;
 
-        transform.position += transform.forward * currentSpeed;
+        currentSpeed *= 1 - (shipMovementData.resistiveForce 
+            + shipMovementData.additionalResistiveForceWhileRotate * Mathf.Abs(rotationAngle)) * Time.deltaTime;
     }
 
-    public void AddShipForce(float _direction) {
-        currentSpeed += _direction * shipMovementData.GetShipForce() * Time.deltaTime;
+    private void Rotate()
+    {
+        float maxPotentialSpeed = shipMovementData.GetShipForce() / shipMovementData.resistiveForce;
+        float angleToRotate = rotationAngle * (currentSpeed / maxPotentialSpeed) * Time.deltaTime;
+
+        transform.Rotate(new Vector3(0, angleToRotate, 0));
+
+        if (autoSteeringWheelReturn && !hasRotationInput)
+        {
+            rotationAngle -= angleToRotate;
+        }
+
+        hasRotationInput = false;
+    }
+
+    /// <summary>
+    /// Accelerates the ship
+    /// </summary>
+    /// <param name="direction">Accelerates in positive direction, and decelerates in negative direction</param>
+    public void AddShipForce(float direction) 
+    {
+        currentSpeed += direction * shipMovementData.GetShipForce() * Time.deltaTime;
 
         if (currentSpeed > shipMovementData.maxForwardSpeed)
         {
@@ -35,5 +61,26 @@ public class ShipMovement : MonoBehaviour
         {
             currentSpeed = -shipMovementData.maxBackSpeed;
         }
+    }
+
+
+    /// <summary>
+    /// Shift the rudder of a ship
+    /// </summary>
+    /// <param name="direction">Increase the angle in positive direction, and decrease in negative direction</param>
+    public void AddRotationAngle(float direction) 
+    {
+        rotationAngle += direction * shipMovementData.rudderSpeed * Time.deltaTime;
+
+        if (rotationAngle > shipMovementData.maxRotationSpeed)
+        {
+            rotationAngle = shipMovementData.maxRotationSpeed;
+        }
+        else if (rotationAngle < -shipMovementData.maxRotationSpeed)
+        {
+            rotationAngle = -shipMovementData.maxRotationSpeed;
+        }
+
+        hasRotationInput = direction != 0 ? true : false;
     }
 }

@@ -11,6 +11,16 @@ public class ShipMovementData : MonoBehaviour
     [Range(0, 1)]
     public float resistiveForce;
 
+    public float maxRotationSpeed;
+    public float rudderSpeed;
+
+
+    /// <summary>
+    /// Decreasing speed for every degree per second
+    /// </summary>
+    [Range(0, 1)]
+    public float additionalResistiveForceWhileRotate;
+
     private void Awake()
     {
         LoadShipForceData();
@@ -27,9 +37,9 @@ public class ShipMovementData : MonoBehaviour
         return shipForce;
     }
 
-    public void SetShipForce(float _shipForace)
+    public void SetShipForce(float shipForce)
     {
-        shipForce = _shipForace; //Save to HDD;
+        this.shipForce = shipForce; //Save to HDD;
     }
     #endregion
 }

@@ -35,7 +35,8 @@ public class ShipMovement : MonoBehaviour
         float maxPotentialSpeed = shipMovementData.GetShipForce() / shipMovementData.resistiveForce;
         float angleToRotate = rotationAngle * (currentSpeed / maxPotentialSpeed) * Time.deltaTime;
 
-        transform.Rotate(new Vector3(0, angleToRotate, 0));
+        transform.RotateAround(transform.position + transform.forward * shipMovementData.shipLength / 2, 
+            new Vector3(0, 1, 0), angleToRotate);
 
         if (autoSteeringWheelReturn && !hasRotationInput)
         {

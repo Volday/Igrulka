@@ -14,12 +14,13 @@ public class ShipMovementData : MonoBehaviour
     public float maxRotationSpeed;
     public float rudderSpeed;
 
-
     /// <summary>
     /// Decreasing speed for every degree per second
     /// </summary>
     [Range(0, 1)]
     public float additionalResistiveForceWhileRotate;
+
+    public float shipLength;
 
     private void Awake()
     {

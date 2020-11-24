@@ -5,7 +5,7 @@ public class TherdPersonCamera : MonoBehaviour
     public float mouseSensitivity = 3;
     public Transform target;
     public float distanceToTaget = 50;
-
+    
     public Vector2 pitchMinMax = new Vector2(5, 90);//x min, y max
 
     float yaw;//horizontalRotation

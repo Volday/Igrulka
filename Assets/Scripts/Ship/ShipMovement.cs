@@ -5,7 +5,7 @@ public class ShipMovement : MonoBehaviour
 {
     public bool autoSteeringWheelReturn;
     private bool hasRotationInput;
-
+    
     private float currentSpeed = 0;
     private float rotationAngle = 0;
 

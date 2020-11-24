@@ -8,7 +8,7 @@ public class DynamicNavMeshAgent : MonoBehaviour
     private AvatarNavMeshAgent avatarNavMeshAgent;
 
     private Transform targetTransform;
-
+    
     private void Awake()
     {
         SetUpAgent();

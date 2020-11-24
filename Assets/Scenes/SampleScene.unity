@@ -846,7 +846,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetSurface: {fileID: 526030463}
   navMeshSurface: {fileID: 1345082082}
-  currentTarget: {fileID: 1246932408}
 --- !u!23 &1883783647
 MeshRenderer:
   m_ObjectHideFlags: 0
